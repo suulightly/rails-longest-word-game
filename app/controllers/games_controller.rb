@@ -9,13 +9,11 @@ class GamesController < ApplicationController
   def score
     @answer = params[:answer]
     @grid = params[:grid]
-    @message = ''
+    @message = "Congratulations! #{@answer.upcase} is a valid English word!"
     if !valid_word?
       @message = "Sorry but #{@answer.upcase} does not seem to be a valid English word..."
     elsif !in_grid?
       @message = "Sorry but #{@answer.upcase} can't be built out of #{@grid}"
-    else
-      @message = "Congratulations! #{@answer.upcase} is a valid English word!"
     end
   end
 
@@ -28,7 +26,7 @@ class GamesController < ApplicationController
   end
 
   def in_grid?
-    @answer.chars.all? { |c| @grid.include? c }
-    @answer.chars.all? { |c| @answer.count(c) <= @grid.count(c) }
+    @answer.upcase.chars.all? { |c| @grid.include? c }
+    @answer.upcase.chars.all? { |c| @answer.upcase.count(c) <= @grid.count(c) }
   end
 end
